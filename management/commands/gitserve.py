@@ -1,10 +1,9 @@
 # -*- coding: utf8 -*-
 from gitana.views import GitanaShellView
-import re, os
-from django.contrib.auth.models import User, Permission
+import os
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.core.management.base import BaseCommand, CommandError
-#from lubico.contrib.account.models import Account, AccountManager
 from gitana.exceptions import WrongGitCommandError
 from gitana.models import Repository
 
@@ -30,7 +29,7 @@ class Command(BaseCommand):
         username = args[0]
         try:
             self.current_user = user = User.objects.filter(username=username, is_active=True).get()
-            # expected environment SSH_ORIGINAL_COMMAND='git-receive-pack '\''sassman/gitosis.git'\'''
+            # expected environment SSH_ORIGINAL_COMMAND='git-receive-pack '\''username/repository.git'\'''
             if not cmd:
                 cmd = os.environ.get('SSH_ORIGINAL_COMMAND', None)
             if cmd is None or len(cmd) == 0:
