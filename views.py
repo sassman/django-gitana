@@ -228,6 +228,9 @@ class GetInfoRefsView(GitanaBaseMixin):
             raise Http404()
 
 class GetTextFileView(GitanaBaseMixin):
+    """
+    delivers a static file from the git repository to the requestor
+    """
     url_pattern = r'(?P<file_name>HEAD|objects/info/http-alternates|objects/info/alternates)$'
     content_type = 'text/pain'
     http_method_names = ['get']
