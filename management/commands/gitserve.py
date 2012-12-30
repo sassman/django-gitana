@@ -1,4 +1,5 @@
 # -*- coding: utf8 -*-
+
 from gitana.views import GitanaShellView
 import os
 from django.contrib.auth.models import User
@@ -10,7 +11,7 @@ from gitana.models import Repository
 __author__ = 'sassman <sven.assmann@lubico.biz>'
 __version__ = "0.0.1"
 __license__ = "GNU Lesser General Public License"
-__package__ = "gitana"
+__package__ = "gitana.management.commands"
 
 class Command(BaseCommand):
     args = '<username> [<SSH_ORIGINAL_COMMAND>]'
