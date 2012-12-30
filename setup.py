@@ -13,7 +13,11 @@ setup(
     keywords = 'git django vcs repository-management git-web git-ssh',
     url='http://lubico.biz',
     license='LICENSE.txt',
-    packages = ['django_gitana'],
+    packages = [
+        'django_gitana',
+        'django_gitana.management',
+        'django_gitana.management.commands',
+    ],
     long_description = open('README.txt').read(),
     install_requires=[
         "Django >= 1.4.1",
