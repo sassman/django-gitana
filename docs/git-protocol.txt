@@ -13,13 +13,13 @@ Refs
 GIT-PULL over HTTP(S)
 =====================
 
-here i try to illustrate the flow of requests and responds that can be simpulated
-with a curl statement. To explain how the protocol works.
+this is a try to illustrate the flow of requests and responds that can be simulated
+with a curl statement. A try to explain how the protocol works.
 
 we define our http push+pull url as <baseurl>
-e.g. <baseurl> := avajasadfjajsfaslkjfalsjf apts
+e.g. <baseurl> := 'https://code.yoursite.com/username/repository.git'
 
-so all things starts with the following flow of requests
+all things starts with the following flow of requests
 
 GET  <baseurl>/info/refs?service=git-upload-pack                 HTTP/1.1 401 0
 GET  <baseurl>/info/refs?service=git-upload-pack                 HTTP/1.0 200 0
