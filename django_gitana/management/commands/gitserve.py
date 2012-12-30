@@ -1,12 +1,12 @@
 # -*- coding: utf8 -*-
 
-from gitana.views import GitanaShellView
+from django_gitana.views import GitanaShellView
 import os
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.core.management.base import BaseCommand, CommandError
-from gitana.exceptions import WrongGitCommandError
-from gitana.models import Repository
+from django_gitana.exceptions import WrongGitCommandError
+from django_gitana.models import Repository
 
 __author__ = 'sassman <sven.assmann@lubico.biz>'
 __version__ = "1.0.0"

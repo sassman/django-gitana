@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 import django.contrib.admin as a
-from gitana.models import Repository, UserKey
+from django_gitana.models import Repository, UserKey
 from django.contrib.auth.models import User
 
 __author__ = 'sassman <sven.assmann@lubico.biz>'
