@@ -1,12 +1,21 @@
+# -*- coding: utf8 -*-
+
 import sys, os, shutil, subprocess
 from gitana.validators import SSHPublicKeyValidator
 from lockfile import FileLock
 from django.contrib.auth.models import User
 from django.core.exceptions import ImproperlyConfigured
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.contrib.sites.models import Site
+
+__author__ = 'sassman <sven.assmann@lubico.biz>'
+__version__ = "0.0.1"
+__license__ = "GNU Lesser General Public License"
+__package__ = "gitana.models"
 
 if not getattr(settings, 'ROOT_PATH', False):
     raise ImproperlyConfigured('ROOT_PATH is not configured, please set ROOT_PATH = os.path.dirname(os.path.abspath(__file__)) to settings.py')
@@ -39,8 +48,6 @@ class Repository(models.Model):
 
     modified        = models.DateTimeField(auto_now=True)
     created         = models.DateTimeField(auto_now_add=True)
-    #created_by = CurrentUserField()     # TODO refactor to CurrentUserField
-    #created_by = models.ForeignKey(User, related_name='owner')     # TODO refactor to CurrentUserField
 
     class Meta:
         unique_together = ( ('account', 'slug'),)
@@ -51,7 +58,7 @@ class Repository(models.Model):
 
     @property
     def git_remote_add(self):
-        return "git remote add %(remote)s %(url)s" % dict(url=self.full_url, remote = settings.GITANA_GIT_REMOTE)
+        return "git remote add %(remote)s %(url)s" % dict(url=self.full_ssh_url, remote = settings.GITANA_GIT_REMOTE)
 
     @property
     def physical_name(self):
@@ -67,15 +74,31 @@ class Repository(models.Model):
 
     @property
     def full_path(self):
-        return "%s/%s" % (self.root_path, self.repository_name)
+        return os.path.abspath(os.path.join(self.root_path, self.repository_name))
 
     @property
     def absolute_scope_path(self):
-        return '%s/%s' % (self.root_path, self.account.username)
+        return os.path.abspath(os.path.join(self.root_path, self.account.username))
 
     @property
     def full_url(self):
-        from django.contrib.sites.models import Site
+        urls = self.full_ssh_url
+        urls += " \n or "
+        urls += self.full_http_url
+        return urls
+
+    @property
+    def full_http_url(self):
+        site = Site.objects.get(id = settings.GITANA_SITE_ID)
+        path = reverse('gitana_get_info_refs', kwargs=dict(
+            account_slug = self.account.username,
+            repository_slug = self.slug,
+        ))
+        path = path.replace('/info/refs', '')
+        return "%s://%s%s" % ('https', site.domain, path)
+
+    @property
+    def full_ssh_url(self):
         site = Site.objects.get(id = settings.GITANA_SITE_ID)
         return "%s@%s:%s" % (settings.GITANA_USERNAME, site.domain, self.repository_name)
 
