@@ -15,7 +15,7 @@ from gitana.backends import GitStatelessHttpBackendWrapper
 __author__ = 'sassman <sven.assmann@lubico.biz>'
 __version__ = "1.0.0"
 __license__ = "GNU Lesser General Public License"
-__package__ = "gitana.views"
+__package__ = "django_gitana"
 
 log = logging.getLogger(__name__)
 

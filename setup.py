@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 
-from distutils.core import setup
+from setuptools import setup
 
 version = '1.0.0'
 
@@ -13,7 +13,7 @@ setup(
     keywords = 'git django vcs repository-management git-web git-ssh',
     url='http://lubico.biz',
     license='LICENSE.txt',
-    packages = ['djangogitana'],
+    packages = ['django_gitana'],
     long_description = open('README.txt').read(),
     install_requires=[
         "Django >= 1.4.1",
