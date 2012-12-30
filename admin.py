@@ -1,4 +1,5 @@
 # -*- coding: utf8 -*-
+
 from django.contrib import admin
 import django.contrib.admin as a
 from gitana.models import Repository, UserKey
@@ -7,7 +8,7 @@ from django.contrib.auth.models import User
 __author__ = 'sassman <sven.assmann@lubico.biz>'
 __version__ = "0.0.1"
 __license__ = "GNU Lesser General Public License"
-__package__ = "gitana"
+__package__ = "gitana.admin"
 
 class RepositoryAdmin(admin.ModelAdmin):
 
