@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login
 from django.utils.decorators import available_attrs
 
 __author__ = 'sassman <sven.assmann@lubico.biz>, http://djangosnippets.org/users/Scanner/'
-__version__ = "0.0.1"
+__version__ = "1.0.0"
 __license__ = "GNU Lesser General Public License"
 __package__ = "gitana.decorators"
 

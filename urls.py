@@ -5,7 +5,7 @@ from gitana.views import *
 from gitana.decorators import logged_in_or_basicauth
 
 __author__ = 'sassman <sven.assmann@lubico.biz>'
-__version__ = "0.0.1"
+__version__ = "1.0.0"
 __license__ = "GNU Lesser General Public License"
 __package__ = "gitana.urls"
 
