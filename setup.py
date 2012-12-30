@@ -20,6 +20,8 @@ setup(
     ],
     long_description = open('README.txt').read(),
     install_requires=[
-        "Django >= 1.4.1",
+        'setuptools',
+        'Django >= 1.4.1',
+        'lockfile >= 0.9.1',
     ],
 )
