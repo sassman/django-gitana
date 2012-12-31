@@ -21,6 +21,32 @@ Installation
 
     pip install -e git://github.com/lubico-business/django-gitana.git#egg=django-gitana
 
+### important runtime especially
+
+to be able to manage user ssh public keys it is necessary to run as user that is configured `GITANA_USERNAME` usually
+ you use `git`. A sample apache2 vhost configuration can looks like the following:
+
+    <VirtualHost *:80>
+
+        ServerName code.yoursite.com
+        ServerAlias *.yoursite.com
+
+        DocumentRoot /var/www/code.yoursite.com/code/webroot
+        CustomLog /var/www/code.yoursite.com/code/data/logs/access.log combined
+
+        WSGIPassAuthorization On
+        WSGIApplicationGroup %{GLOBAL}
+        WSGIDaemonProcess yoursite.com threads=10 user=git python-path=/var/www/code.yoursite.com/code:/var/www/code.yoursite.com/venv/lib/python2.7/site-packages
+        WSGIProcessGroup yoursite.com
+        WSGIScriptAlias / /var/www/code.yoursite.com/code/wsgi.py
+
+    </VirtualHost>
+
+the important thing is `WSGIDaemonProcess user=git` that enables your wsgi application to manage ssh keys and will
+ retain the correct permissions on file system to all created repositories
+
+python-path is only relevant if you going to establish your application together with a python virtual environment.
+
 Getting Started
 ---------------
 
