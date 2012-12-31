@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django_gitana.exceptions import WrongGitCommandError
+from lubico.django.contrib.gitana.exceptions import WrongGitCommandError
 import os, subprocess, datetime, logging, re
 
 from django.core.exceptions import PermissionDenied
@@ -9,8 +9,8 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.views.decorators.gzip import gzip_page
-from django_gitana.models import Repository
-from django_gitana.backends import GitStatelessHttpBackendWrapper
+from lubico.django.contrib.gitana.models import Repository
+from lubico.django.contrib.gitana.backends import GitStatelessHttpBackendWrapper
 
 __author__ = 'sassman <sven.assmann@lubico.biz>'
 __version__ = "1.0.0"

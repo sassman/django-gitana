@@ -1,17 +1,17 @@
 # -*- coding: utf8 -*-
 
-from django_gitana.views import GitanaShellView
+from lubico.django.contrib.gitana.views import GitanaShellView
 import os
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.core.management.base import BaseCommand, CommandError
-from django_gitana.exceptions import WrongGitCommandError
-from django_gitana.models import Repository
+from lubico.django.contrib.gitana.exceptions import WrongGitCommandError
+from lubico.django.contrib.gitana.models import Repository
 
 __author__ = 'sassman <sven.assmann@lubico.biz>'
 __version__ = "1.0.0"
 __license__ = "GNU Lesser General Public License"
-__package__ = "django_gitana.management.commands"
+__package__ = "lubico.django.contrib.gitana.management.commands"
 
 class Command(BaseCommand):
     args = '<username> [<SSH_ORIGINAL_COMMAND>]'

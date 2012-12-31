@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 
 import sys, os, shutil, subprocess
-from django_gitana.validators import SSHPublicKeyValidator
+from lubico.django.contrib.gitana.validators import SSHPublicKeyValidator
 from lockfile import FileLock
 from django.contrib.auth.models import User
 from django.core.exceptions import ImproperlyConfigured

@@ -1,9 +1,9 @@
 # -*- coding: utf8 -*-
 
-from django.contrib import admin
 import django.contrib.admin as a
-from django_gitana.models import Repository, UserKey
+from django.contrib import admin
 from django.contrib.auth.models import User
+from lubico.django.contrib.gitana.models import Repository, UserKey
 
 __author__ = 'sassman <sven.assmann@lubico.biz>'
 __version__ = "1.0.0"

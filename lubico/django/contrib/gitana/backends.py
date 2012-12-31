@@ -3,7 +3,7 @@ from wsgiref.validate import check_content_type
 
 import os, subprocess, datetime, logging, re
 from django.http import HttpResponse
-from django_gitana.exceptions import WrongGitCommandError, GitBackendError
+from lubico.django.contrib.gitana.exceptions import WrongGitCommandError, GitBackendError
 
 __author__ = 'sassman <sven.assmann@lubico.biz>'
 __version__ = "1.0.0"

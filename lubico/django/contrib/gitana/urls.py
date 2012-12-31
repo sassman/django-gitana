@@ -1,8 +1,8 @@
 # -*- coding: utf8 -*-
 
 from django.conf.urls.defaults import *
-from django_gitana.views import *
-from django_gitana.decorators import logged_in_or_basicauth
+from lubico.django.contrib.gitana.views import *
+from lubico.django.contrib.gitana.decorators import logged_in_or_basicauth
 
 __author__ = 'sassman <sven.assmann@lubico.biz>'
 __version__ = "1.0.0"
