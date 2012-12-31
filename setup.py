@@ -11,7 +11,7 @@ setup(
     author_email='sven.assmann@lubico.biz',
     description = "Git repository management app for django",
     keywords = 'git django vcs repository-management git-web git-ssh',
-    url='http://lubico.biz',
+    url='https://github.com/lubico-business/django-gitana',
     license='LICENSE.txt',
     packages = [
         'lubico',
