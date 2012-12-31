@@ -57,11 +57,21 @@ class GitanaBaseMixin(View):
         """
         return git backend that can handle the serives and the requests
         """
-        return GitStatelessHttpBackendWrapper(
+        backend = GitStatelessHttpBackendWrapper(
             self.get_repository(),
             self.request.user,
             self.get_service(),
         )
+        if not backend.has_access():
+            raise PermissionDenied('access')
+        return backend
+
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            result = super(GitanaBaseMixin, self).dispatch(request, *args, **kwargs)
+            return result
+        except PermissionDenied as e:
+            return HttpResponseForbidden(content=e.message)
 
 class GitanaShellView(GitanaBaseMixin):
     cmd_pattern = r'^(?P<account_slug>[-\w]+)/(?P<repository_slug>[-\w]+)\.git'
