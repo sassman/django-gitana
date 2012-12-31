@@ -7,7 +7,7 @@ from lubico.django.contrib.gitana.decorators import logged_in_or_basicauth
 __author__ = 'sassman <sven.assmann@lubico.biz>'
 __version__ = "1.0.0"
 __license__ = "GNU Lesser General Public License"
-__package__ = "django_gitana"
+__package__ = "lubico.django.contrib.gitana"
 
 """ Urls that needs to be wrap
     taken form the git-http-backend sources:

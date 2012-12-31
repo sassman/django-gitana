@@ -10,7 +10,7 @@ from django.utils.decorators import available_attrs
 __author__ = 'sassman <sven.assmann@lubico.biz>, http://djangosnippets.org/users/Scanner/'
 __version__ = "1.0.0"
 __license__ = "GNU Lesser General Public License"
-__package__ = "django_gitana"
+__package__ = "lubico.django.contrib.gitana"
 
 def view_or_basicauth(view, request, test_func, realm = "", *args, **kwargs):
     """

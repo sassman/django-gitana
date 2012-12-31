@@ -15,7 +15,7 @@ from django.contrib.sites.models import Site
 __author__ = 'sassman <sven.assmann@lubico.biz>'
 __version__ = "1.0.0"
 __license__ = "GNU Lesser General Public License"
-__package__ = "django_gitana"
+__package__ = "lubico.django.contrib.gitana"
 
 if not getattr(settings, 'ROOT_PATH', False):
     raise ImproperlyConfigured('ROOT_PATH is not configured, please set ROOT_PATH = os.path.dirname(os.path.abspath(__file__)) to settings.py')
