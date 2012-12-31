@@ -2,6 +2,7 @@
 from wsgiref.validate import check_content_type
 
 import os, subprocess, datetime, logging, re
+from django.conf import settings
 from django.http import HttpResponse, Http404
 from lubico.django.contrib.gitana.exceptions import WrongGitCommandError, GitBackendError
 
@@ -11,6 +12,9 @@ __license__ = "GNU Lesser General Public License"
 __package__ = "lubico.django.contrib.gitana"
 
 log = logging.getLogger(__name__)
+
+if not getattr(settings, 'GITANA_GIT_LIB_PATH', False):
+    settings.GITANA_GIT_LIB_PATH = '/usr/lib/git-core/'
 
 class GitBackend:
 
@@ -98,7 +102,8 @@ class GitStatelessHttpBackendWrapper(GitBackend):
     def run_service(self, raw_data = None, args_in = []):
         self.validate_service()
 
-        args = ['/usr/lib/git-core/'+self.service, '--stateless-rpc'] + args_in + [self.repository.full_path]
+        cmd = os.path.abspath(os.path.join(settings.GITANA_GIT_LIB_PATH, self.service))
+        args = [cmd, '--stateless-rpc'] + args_in + [self.repository.full_path]
         env = dict(
             GIT_COMMITTER_NAME=self.requestor.get_full_name().encode('latin1'),
             GIT_COMMITTER_EMAIL=self.requestor.email.encode('latin1')

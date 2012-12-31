@@ -17,6 +17,22 @@ What's it not
 a frontend to browse your git repository code like gitweb or gitosis.
 It only provides you the "backend" to push, pull, clone etc. within django
 
+enable gitana app
+=================
+
+add to your django settings.py to your INSTALLED_APPS the following:
+{{{
+INSTALLED_APPS = (
+    ...
+    'lubico.django.contrib.gitana',
+)
+}}}
+
+don't forget to sync db
+
+{{{
+python manage.py syncdb
+}}}
 
 enable git push over ssh
 ========================
@@ -25,6 +41,12 @@ setup an user unix accout to push as wrapper
 
 {{{
 sudo adduser --home /home/git --shell /bin/sh --system git
+}}}
+
+or do it django style via manage.py
+
+{{{
+python manage.py toggle_ssh_push_and_pull
 }}}
 
 configure gitana app
@@ -73,6 +95,13 @@ GITANA_VIRTUAL_ENV_PYTHON_BIN = os.path.abspath(os.path.join(ROOT_PATH, '../.ven
 
 Note: optional, default is sys.executable
 configures the path of python binary if your setup is wrapped within a virual environment
+
+{{{
+GITANA_GIT_LIB_PATH = '/usr/lib/git-core/'
+}}}
+
+Note: optional, default is as shown
+configures the path of git bin utils
 
 
 Thanks also to
