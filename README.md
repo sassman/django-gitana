@@ -126,4 +126,4 @@ configures the path of git bin utils
 Thanks to
 ---------
 
-special thanks to all the guys that builds git and especial git-http-backend cgi that comes along with git sources
+special thanks to all the people that builds git and especial git-http-backend cgi that comes along with git sources
