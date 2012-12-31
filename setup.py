@@ -14,6 +14,9 @@ setup(
     url='http://lubico.biz',
     license='LICENSE.txt',
     packages = [
+        'lubico',
+        'lubico.django',
+        'lubico.django.contrib',
         'lubico.django.contrib.gitana',
         'lubico.django.contrib.gitana.management',
         'lubico.django.contrib.gitana.management.commands',
