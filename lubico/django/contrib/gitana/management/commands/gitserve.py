@@ -1,4 +1,5 @@
 # -*- coding: utf8 -*-
+from django.http import Http404, HttpRequest
 
 from lubico.django.contrib.gitana.views import GitanaShellView
 import os
@@ -17,70 +18,58 @@ class Command(BaseCommand):
     args = '<username> [<SSH_ORIGINAL_COMMAND>]'
     help = 'Wraps git-shell within controlled repository access check for certain users'
     cmd = None
+    git_cmd = None
+    git_repository = None
     current_user = None
 
     def handle(self, *args, **options):
+        """
+        expected environment SSH_ORIGINAL_COMMAND='git-receive-pack '\''username/repository.git'\'''
+        or a 2nd argument that contains the same content as the environment variable
+        """
         if not len(args):
             raise CommandError('No user specified')
 
-        cmd = None
         if len(args) == 2:
-            cmd = args[1]
+            self.cmd = args[1]
 
         username = args[0]
         try:
-            self.current_user = user = User.objects.filter(username=username, is_active=True).get()
-            # expected environment SSH_ORIGINAL_COMMAND='git-receive-pack '\''username/repository.git'\'''
-            if not cmd:
-                cmd = os.environ.get('SSH_ORIGINAL_COMMAND', None)
-            if cmd is None or len(cmd) == 0:
+            request = HttpRequest()
+            request.user = self.current_user = User.objects.get(username=username, is_active=True)
+            if not self.cmd:
+                self.cmd = os.environ.get('SSH_ORIGINAL_COMMAND', None)
+            if self.cmd is None or len(self.cmd) == 0:
                 raise WrongGitCommandError()
 
-            (git_cmd, cmd_args) = cmd.split(' ')
+            (self.git_cmd, self.git_repository) = self.cmd.split(' ')
 
             view = GitanaShellView(
-                uri = cmd_args.replace("'", ''),
-                service = git_cmd
+                request = request,
+                uri = self.git_repository.replace("'", ''),
+                service = self.git_cmd
             )
+            if not view.get_backend().has_access():
+                raise PermissionDenied('access')
 
             repository = view.get_repository()
-            if repository is None:
-                raise Repository.DoesNotExist
-
-            can_review = repository.can_review(user)
-            if git_cmd == 'git-receive-pack':   # client do: git push
-                if not repository.can_contribute(user):
-                    if can_review:
-                        raise PermissionDenied('contribute')
-                    raise Repository.DoesNotExist
-            elif git_cmd in ('git-upload-pack', 'git-upload-archive'):  # client do: git pull
-                if not can_review:
-                    raise Repository.DoesNotExist
-            else:
-                raise WrongGitCommandError()
-
+            # TODO refactor this check into repository model
             repository_path = repository.full_path
             if not os.path.exists(repository_path): # TODO think about creation on the fly
                 raise Repository.DoesNotExist
 
-            git_cmd_new = '%s \'%s\'' % (git_cmd, repository_path)
-            #cmd = 'git shell -c \'%s \'\'%s\'\'\'' % (git_cmd, '.')
-            #subprocess.Popen(cmd, stdout=self.stdout, stderr=self.stdout, cwd=repository_path).communicate()
+            git_cmd_new = "%s '%s'" % (self.git_cmd, repository_path)
             os.execvp('git', ['git', 'shell', '-c', git_cmd_new])
 
         except User.DoesNotExist:
-            raise CommandError('User "%s" does not exist' % username)
+            raise CommandError('[0] No such account %s found.' % username)
         except ValidationError, e:
-            raise CommandError('[1] No such repository %s found. Please visit www.gitploy.com/repositories' % cmd_args)
-        except Repository.DoesNotExist:
-            raise CommandError('[2] No such repository %s found. Please visit www.gitploy.com/repositories' % cmd_args)
-        except User.DoesNotExist:
-            raise CommandError('2: No matched account for %s found' % cmd_args)
+            raise CommandError('[1] No such repository %s found.' % self.git_repository)
+        except Http404 as e:
+            raise CommandError('[2] No such repository %s found.' % self.git_repository)
         except PermissionDenied, e:
-            raise CommandError('You are not allowed to %s repository "%s"' % (e.message, repository.repository_name))
+            raise CommandError('[3] You are not allowed to %s repository %s' % (e.message, self.git_repository))
         except WrongGitCommandError:
-            raise CommandError('Brutality! Do you think i\'m a login shell?')
+            raise CommandError('Do you think i\'m a login shell?')
         except Exception, e:
-            raise CommandError('Heroic Brutality! %s' % e)
-
-        #self.stdout.write('User "%s" accepted\n' % user.username)
+            raise CommandError('Live long and prosper. >> %s' % e)

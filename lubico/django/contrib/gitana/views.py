@@ -66,7 +66,8 @@ class GitanaBaseMixin(View):
 class GitanaShellView(GitanaBaseMixin):
     cmd_pattern = r'^(?P<account_slug>[-\w]+)/(?P<repository_slug>[-\w]+)\.git'
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
         self.args = args
         self.kwargs = kwargs
 
@@ -77,6 +78,7 @@ class GitanaShellView(GitanaBaseMixin):
 
         self.kwargs[self.kwarg_account_slug] = match_dict['account_slug']
         self.kwargs[self.kwarg_repository_slug] = match_dict['repository_slug']
+        self.get_backend().validate_service()
 
 class GetInfoRefsView(GitanaBaseMixin):
     url_pattern = r'info/refs$'
