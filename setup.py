@@ -21,7 +21,7 @@ setup(
         'lubico.django.contrib.gitana.management',
         'lubico.django.contrib.gitana.management.commands',
     ],
-    long_description = open('README.txt').read(),
+    long_description = open('README.md').read(),
     install_requires=[
         'setuptools',
         'Django >= 1.4.1',
