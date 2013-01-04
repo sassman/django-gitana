@@ -90,12 +90,15 @@ class Repository(models.Model):
     @property
     def full_http_url(self):
         site = Site.objects.get(id = settings.GITANA_SITE_ID)
-        path = reverse('gitana_get_info_refs', kwargs=dict(
-            account_slug = self.account.username,
-            repository_slug = self.slug,
-        ))
-        path = path.replace('/info/refs', '')
-        return "%s://%s%s" % ('https', site.domain, path)
+        try:
+            path = reverse('gitana_get_info_refs', kwargs=dict(
+                account_slug=self.account.username,
+                repository_slug=self.slug,
+            ))
+            path = path.replace('/info/refs', '')
+            return "%s://%s%s" % ('https', site.domain, path)
+        except:
+            return ''
 
     @property
     def full_ssh_url(self):
