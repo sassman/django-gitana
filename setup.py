@@ -2,14 +2,14 @@
 
 from setuptools import setup
 
-version = '1.0.0'
+version = '1.0.1'
 
 setup(
     name = 'django-gitana',
     version = version,
     author = 'Sven Aßmann',
     author_email='sven.assmann@lubico.biz',
-    description = "Git repository management app for django",
+    description = 'Git repository management app for django',
     keywords = 'git django vcs repository-management git-web git-ssh',
     url='https://github.com/lubico-business/django-gitana',
     license='LICENSE.txt',

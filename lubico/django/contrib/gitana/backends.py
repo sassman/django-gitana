@@ -7,7 +7,7 @@ from django.http import HttpResponse, Http404
 from lubico.django.contrib.gitana.exceptions import WrongGitCommandError, GitBackendError
 
 __author__ = 'sassman <sven.assmann@lubico.biz>'
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __license__ = "GNU Lesser General Public License"
 __package__ = "lubico.django.contrib.gitana"
 
@@ -139,61 +139,3 @@ class GitStatelessHttpBackendWrapper(GitBackend):
         )
         log.debug(response2)
         return self.cache_wrapper(response2, False)
-
-"""
-this was the backend adapter
-
-class GitHttpBackendWrapper(GitBackend):
-
-    def run_service(self, raw_data = None, args_in = []):
-        env = dict(
-            #GIT_PROJECT_ROOT        = repository.full_path.encode('latin1'),
-            GIT_HTTP_EXPORT_ALL     = "1",
-            GIT_COMMITTER_NAME      = self.requestor.get_full_name().encode('latin1'),
-            GIT_COMMITTER_EMAIL     = self.requestor.email.encode('latin1'),
-            #PATH_INFO               = path,
-            PATH_TRANSLATED         = os.path.join(self.repository.full_path, self.path).encode('latin1'),
-            #REQUEST_URI             = path,
-            REQUEST_METHOD          = self.env.get('REQUEST_METHOD'),
-            QUERY_STRING            = self.env.get('QUERY_STRING'),
-            REMOTE_USER             = self.requestor.username.encode('latin1'),
-            REMOTE_ADDR             = self.env.get('REMOTE_ADDR'),
-            CONTENT_TYPE            = self.env.get('CONTENT_TYPE', ''),
-            SERVER_PROTOCOL         = self.env.get('SERVER_PROTOCOL'),
-            HTTP_CONTENT_ENCODING   = self.env.get('HTTP_CONTENT_ENCODING', ''),
-        )
-
-        cmd = '/usr/lib/git-core/git-http-backend'
-        if self.service:
-            cmd = [cmd, "/"+self.service]
-        log.debug("going to launch git-http-backend from path %s with env=%s", cmd, env)
-
-        log.debug("-------------------")
-        log.debug(raw_data)
-        log.debug("-------------------")
-
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE, env=env)
-        if raw_data and len(raw_data) :
-            p.stdin.write(raw_data)
-
-        body = p.stdout.read()
-        log.debug(body)
-        err = p.stderr.read()
-        if len(err):
-            log.error('git-http-backend returned the error "%s"' % err)
-            raise GitBackendError(message=err)
-
-        #body, err = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env).communicate()
-
-        head, body = body.split('\r\n\r\n')
-        ct = ''
-        r = re.compile(r'Content-Type: (?P<ct>[-\w]+/[-\w]+)')
-        m = r.search(head)
-        if m:
-            ct = m.group(1)
-
-        return HttpResponse(
-            content = body,
-            content_type = ct
-        )
-"""

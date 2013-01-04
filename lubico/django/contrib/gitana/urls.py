@@ -5,7 +5,7 @@ from lubico.django.contrib.gitana.views import *
 from lubico.django.contrib.gitana.decorators import logged_in_or_basicauth
 
 __author__ = 'sassman <sven.assmann@lubico.biz>'
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __license__ = "GNU Lesser General Public License"
 __package__ = "lubico.django.contrib.gitana"
 
