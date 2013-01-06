@@ -70,8 +70,23 @@ don't forget to sync db:
 
     python manage.py syncdb
 
-enable git push over ssh
-^^^^^^^^^^^^^^^^^^^^^^^^
+
+enable git push and pull over http(s)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+add the following to your ``urls.py`` if you want to enable git operations over http
+
+::
+
+    urlpatterns += patterns('',
+        url('', include('lubico.django.contrib.gitana.urls')),
+    )
+
+Note: it is highly recommended to use https instead of using http, only then your passwords are transmitted over a
+secure socket connection.
+
+
+enable git push and pull over ssh
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 setup an user unix accout to push as wrapper:
 ::
 
